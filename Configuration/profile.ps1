@@ -66,11 +66,11 @@ if ($IsWindows) {
   Set-PSReadLineKeyHandler -Chord Ctrl+Shift+v -Function Paste
 }
 else {
-  if ($null -eq (Get-Module PSUnixUtilCompleters -listavailable)) {
-    Install-Module PSUnixUtilCompleters -Repository PSGallery -AcceptLicense -Force
+  if ($null -eq (Get-Module Microsoft.PowerShell.UnixCompleters -listavailable)) {
+    Install-Module Microsoft.PowerShell.UnixCompleters -Repository PSGallery -AcceptLicense -Force
   }
 
-  Import-Module PSUnixUtilCompleters
+  Import-Module Microsoft.PowerShell.UnixCompleters
 }
 
 Set-PSReadLineOption -Colors @{Selection = "`e[92;7m"}
