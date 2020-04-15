@@ -1,0 +1,1 @@
+Invoke-Command dig -ArgumentList "-t txt _acme_challenge.$($Domain) +short"
