@@ -1,4 +1,10 @@
 ﻿<#
+    Put #REQUIRES statements here.  There should always be a -Version and then the lowest version of PowerShell the script tested sucessfully on
+    If there are any modules used in the script there should be a second one with -Modules and then a comma separated list of modules
+    If it must be run as administrator there should be another requires line with -RunAsAdministrator
+    There are several other requires options.  Use Get-Help about-requires to see if any others should be used in this script
+#>
+<#
 
 .SYNOPSIS
     <Overview of script>
