@@ -1,3 +1,52 @@
+function prompt {
+
+    $currentLastExitCode = $LASTEXITCODE
+
+    $OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding =
+    New-Object System.Text.UTF8Encoding
+
+    # get git branch information if in a git folder or subfolder
+    $gitBranch = ""
+    $path = Get-Location
+    while ($path -ne "") {
+        if (Test-Path (Join-Path $path .git)) {
+            # need to do this so the stderr doesn't show up in $error
+            $ErrorActionPreferenceOld = $ErrorActionPreference
+            $ErrorActionPreference = 'Ignore'
+            $branch = git rev-parse --abbrev-ref --symbolic-full-name '@{u}'
+            $ErrorActionPreference = $ErrorActionPreferenceOld
+
+            # handle case where branch is local
+            if ($lastexitcode -ne 0 -or $null -eq $branch) {
+                $branch = git rev-parse --abbrev-ref HEAD
+            }
+
+            $branchColor = $color.Green
+
+            if ($branch -match "/master") {
+                $branchColor = $color.Red
+            }
+            $gitBranch = " $($color.Grey)[$branchColor$branch$($color.Grey)]$($color.Reset)"
+            break
+        }
+
+        $path = Split-Path -Path $path -Parent
+    }
+
+    # truncate the current location if too long
+    $currentDirectory = $executionContext.SessionState.Path.CurrentLocation.Path
+    $consoleWidth = [Console]::WindowWidth
+    $maxPath = [int]($consoleWidth / 2)
+    if ($currentDirectory.Length -gt $maxPath) {
+        $currentDirectory = [char]8230 + $currentDirectory.SubString($currentDirectory.Length - $maxPath)
+    }
+
+
+    "${currentDirectory}${gitBranch}${devBuild}`n${lastExit}PS$($color.Reset)$('>' * ($nestedPromptLevel + 1)) "
+
+    $global:LASTEXITCODE = $currentLastExitCode
+}
+
 if ($PSVersionTable.PSVersion.Major -le 5) {
     #Get-Module -ListAvailable | Import-Module
     #Import-Module $env:USERPROFILE\Documents\WindowsPowerShell\Modules\AdmPwd.PS
