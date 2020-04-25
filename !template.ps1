@@ -254,6 +254,7 @@ function <FunctionName> {
 
 #>
 <#
+    [CmdletBinding()]
     Param (
 
 	)
