@@ -57,8 +57,6 @@ param (
 )
 #endregion
 
-$sw = [Diagnostics.Stopwatch]::StartNew()
-
 #region Import Modules
 
 #endregion
@@ -73,7 +71,7 @@ $godaddyUri = "https://api.godaddy.com/v1/domains"
 
 #region Functions
 function get-GoDaddyDnsRecord {
-<#
+    <#
 .SYNOPSIS
     Get DNS record
 
@@ -137,7 +135,7 @@ function get-GoDaddyDnsRecord {
 }
 
 function set-GoDaddyDnsRecord {
-<#
+    <#
 .SYNOPSIS
     Set DNS record
 
@@ -249,8 +247,5 @@ if ($currentDnsRecordData -ne $CertbotValidate) {
 }
 
 # Display the current certbot validation key
-(get-GoDaddyDnsRecord -Uri $godaddyUri -Domain $CertbotDomain -RecordType $dnsRecordType -RecordName $dnsRecordName -Key $godaddyApiKey -Secret $godaddyApiSecret).data
+#(get-GoDaddyDnsRecord -Uri $godaddyUri -Domain $CertbotDomain -RecordType $dnsRecordType -RecordName $dnsRecordName -Key $godaddyApiKey -Secret $godaddyApiSecret).data
 #endregion
-
-$sw.Stop()
-Write-Host "Execution Time: $($sw.Elapsed.ToString())"
